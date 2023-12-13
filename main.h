@@ -14,5 +14,6 @@ int main(int ac, char **argv);
 void cmdexec(char **argv);
 char *find_location(char *command);
 int stat(const char *pathname, struct stat *statbuf);
+void prompt(void);
 
 #endif /*MAIN_H*/
