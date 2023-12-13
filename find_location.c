@@ -14,7 +14,7 @@ char *find_location(char *command)
 		command_length = strlen(command);
 		path_token = strtok(path_copy, ":");
 
-		while(path_token != NULL)
+		while (path_token != NULL)
 		{
 			directory_length = strlen(path_token);
 			file_path = malloc(command_length + directory_length + 2);
