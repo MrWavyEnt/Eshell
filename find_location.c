@@ -1,20 +1,10 @@
 #include "main.h"
-<<<<<<< HEAD
 /**
  * find_location - Search for the location of a command.
  * @command: The command to search for.
  * This function takes a command as input and searches for its location.
  * Return: The full path to the command if found, or NULL if not found.
  */
-=======
-
-/**
- * find_location - function to find path from user
- * @command: function paramter
- * Return: NULL
- */
-
->>>>>>> 724e8fccd8446aa78c787624b198c7c1751fddab
 char *find_location(char *command)
 {
 	char *path, *path_copy, *path_token, *file_path;
