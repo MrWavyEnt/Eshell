@@ -1,4 +1,12 @@
 #include "main.h"
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+void print_environment(void);
+
+extern char **environ;
+
 /**
  * handle_exit - handles the "exit" built-in command.
  * Prints a farewell message and exits the shell.
@@ -29,11 +37,35 @@ void cmdexec(char **argv)
 			handle_exit();
 		}
 
-		actual_command = find_location(command);
+		else if (strcmp(command, "env") == 0)
+		{
+			print_environment();
+		}
+		else
+		{
+			actual_command = find_location(command);
 
-		if (execve(actual_command, argv, NULL) == -1)
+			if (execve(actual_command, argv, NULL) == -1)
 		{
 			PERROR("Error:");
 		}
+		}
+	}
+}
+
+/**
+ * print_environment - Prints the current environment variables.
+ * Return: NULL
+ */
+void print_environment(void)
+{
+	extern char **environ;
+
+	 char **env = environ;
+
+	while (*env != NULL)
+	{
+		printf("%s\n", *env);
+		env++;
 	}
 }
