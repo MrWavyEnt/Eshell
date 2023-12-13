@@ -1,10 +1,10 @@
 #include "main.h"
 /**
  * find_location - Search for the location of a command.
- * @command: The command to search for.
- * This function takes a command as input and searches for its location.
+ * @command: This function takes a command as input and searches for its location.
  * Return: The full path to the command if found, or NULL if not found.
  */
+
 char *find_location(char *command)
 {
 	char *path, *path_copy, *path_token, *file_path;
@@ -22,22 +22,24 @@ char *find_location(char *command)
 		{
 			directory_length = strlen(path_token);
 			file_path = malloc(command_length + directory_length + 2);
-	strcpy(file_path, path_token);
-	strcat(file_path, "/");
-	strcat(file_path, command);
-	strcat(file_path, "\0");
-
-	if (stat(file_path, &buffer) == 0)
-	{
-		free(path_copy);
-		return (file_path);
-	}
-	else
-	{
-		free(file_path);
-		path_token = strtok(NULL, ":");
-	}
+			
+			strcpy(file_path, path_token);
+			strcat(file_path, "/");
+			strcat(file_path, command);
+			strcat(file_path, "\0");
+			
+			if (stat(file_path, &buffer) == 0)
+			{
+				free(path_copy);
+				return (file_path);
+			}
+			else
+			{
+				free(file_path);
+				path_token = strtok(NULL, ":");
+			}
 		}
+		
 		free(path_copy);
 		if (stat(command, &buffer) == 0)
 		{
