@@ -1,5 +1,11 @@
 #include "main.h"
 
+/**
+ * find_location - function to find path from user
+ * @command: function paramter
+ * Return: NULL
+ */
+
 char *find_location(char *command)
 {
 	char *path, *path_copy, *path_token, *file_path;
@@ -14,7 +20,7 @@ char *find_location(char *command)
 		command_length = strlen(command);
 		path_token = strtok(path_copy, ":");
 
-		while(path_token != NULL)
+		while (path_token != NULL)
 		{
 			directory_length = strlen(path_token);
 			file_path = malloc(command_length + directory_length + 2);
