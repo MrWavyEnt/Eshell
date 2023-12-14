@@ -1,6 +1,23 @@
 #include "main.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+
+void print_environment(void);
+
+extern char **environ;
+
+/**
+ * handle_exit - handles the "exit" built-in command.
+ * Prints a farewell message and exits the shell.
+ * Return: NULL
+ */
+void handle_exit(void)
+{
+	printf("Exiting the shell, Goodbye!\n");
+	exit(0);
+}
+
 /**
  * cmdexec - Executes a command specified by the argv array
  * using the execve system call.
@@ -15,17 +32,22 @@ void cmdexec(char **argv)
 	{
 		command = argv[0];
 
-		if (strcmp(command, "env") == 0)
+		if (strcmp(command, "exit") == 0)
+		{
+			handle_exit();
+		}
+		else if (strcmp(command, "env") == 0)
 		{
 			print_environment();
-			return;
 		}
+		else
+		{
+			actual_command = find_location(command);
 
-		actual_command = find_location(command);
-
-		if (execve(actual_command, argv, NULL) == -1)
+			if (execve(actual_command, argv, NULL) == -1)
 		{
 			PERROR("Error:");
+		}
 		}
 	}
 }
