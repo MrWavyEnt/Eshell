@@ -26,46 +26,30 @@ void handle_exit(int status)
  */
 void cmdexec(char **argv)
 {
-   char *command = NULL, *actual_command = NULL;
-   pid_t pid;
-   int exit_status;
+        char *command = NULL, *actual_command = NULL;
 
-   if (argv)
-   {
-       command = argv[0];
+        if (argv)
+        {
+                command = argv[0];
 
-       if (strcmp(command, "exit") == 0)
-       {
-           handle_exit(0);
-       }
-       else if (strcmp(command, "env") == 0)
-       {
-           print_environment();
-       }
-       else
-       {
-           actual_command = find_location(command);
+                if (strcmp(command, "exit") == 0)
+                {
+                        handle_exit();
+                }
+                else if (strcmp(command, "env") == 0)
+                {
+                        print_environment();
+                }
+                else
+                {
+                        actual_command = find_location(command);
 
-           pid = fork();
-           if (pid == -1)
-           {
-               perror("Error:");
-               return;
-           }
-           else if (pid > 0)
-           {
-               waitpid(pid, &exit_status, 0);
-           }
-           else
-           {
-               if (execve(actual_command, argv, get_environ()) == -1)
-               {
-                  perror("Error:");
-                  exit(EXIT_FAILURE);
-               }
-           }
-       }
-   }
+                        if (execve(actual_command, argv, NULL) == -1)
+                {
+                        PERROR("Error:");
+                }
+                }
+        }
 }
 
 
