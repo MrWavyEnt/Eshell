@@ -34,7 +34,7 @@ void cmdexec(char **argv)
 
                 if (strcmp(command, "exit") == 0)
                 {
-                        handle_exit();
+                        handle_exit(0);
                 }
                 else if (strcmp(command, "env") == 0)
                 {
