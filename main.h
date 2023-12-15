@@ -11,13 +11,18 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
+/**
+ * main - main function
+ * @ac: parameter 1
+ * @argv: parameter 2
+ * Return: void
+ */
+
 int main(int ac, char **argv);
 void cmdexec(char **argv);
 void print_environment(void);
 char *find_location(char *command);
 int stat(const char *pathname, struct stat *statbuf);
-void prompt(void);
-void exec_usercmd(char **args);
 char *_getline();
 char *enter(char *string);
 void hashtag_handler(char *buff);
