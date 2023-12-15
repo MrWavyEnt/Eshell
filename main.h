@@ -26,5 +26,6 @@ int stat(const char *pathname, struct stat *statbuf);
 char *_getline();
 char *enter(char *string);
 void hashtag_handler(char *buff);
+char **get_environ(void);
 
 #endif /*MAIN_H*/

@@ -5,8 +5,6 @@
 
 void print_environment(void);
 
-extern char **environ;
-
 /**
  * handle_exit - handles the "exit" built-in command.
  * Prints a farewell message and exits the shell.
@@ -44,9 +42,9 @@ void cmdexec(char **argv)
 		{
 			actual_command = find_location(command);
 
-			if (execve(actual_command, argv, NULL) == -1)
+			if (execve(actual_command, argv, get_environ()) == -1)
 		{
-			PERROR("Error:");
+			perror("Error:");
 		}
 		}
 	}
@@ -59,11 +57,21 @@ void cmdexec(char **argv)
 void print_environment(void)
 {
 	int i = 0;
-	extern char **environ;
+	char *const *environ = get_environ();
 
 	while (environ[i] != NULL)
 	{
 		printf("%s\n", environ[i]);
 		i++;
 	}
+}
+
+/**
+ * get_environ - Gets the current environment variables.
+ * Return: A pointer to the first element of the environ array.
+ */
+char **get_environ(void)
+{
+	extern char **environ;
+	return environ;
 }
