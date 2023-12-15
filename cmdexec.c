@@ -15,7 +15,7 @@ void print_environment(void);
 void handle_exit(int status)
 {
 	printf("Exiting the shell with status %d. Goodbye!\n", status);
-	exit(status);;
+	exit(status);
 }
 
 /**
@@ -24,12 +24,6 @@ void handle_exit(int status)
  * @argv: Array of strings representing the command and it's arguments
  * Return: Does not return on success. Exits the process if an error occurs.
  */
-void handle_exit(int status)
-{
-   printf("Exiting the shell with status %d. Goodbye!\n", status);
-   exit(status);
-}
-
 void cmdexec(char **argv)
 {
    char *command = NULL, *actual_command = NULL;
