@@ -49,9 +49,15 @@ void cmdexec(char **argv)
 		{
 			actual_command = find_location(command);
 
+			if (actual_command == NULL)
+			{
+				printf("Command not found\n");
+				return;
+			}
+
 			if (execve(actual_command, argv, get_environ()) == -1)
 		{
-			perror("Error in execve");
+			perror("Error:");
 			return;
 		}
 		}
