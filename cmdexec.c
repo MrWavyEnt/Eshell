@@ -2,25 +2,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 
 void print_environment(void);
 
 /**
  * handle_exit - handles the "exit" built-in command.
  * Prints a farewell message and exits the shell.
- * Return: NULL
+ * @status: Exit status to be returned to the operating system.
+ * Return: Does not return.
  */
-void handle_exit(void)
+void handle_exit(int status)
 {
-	printf("Exiting the shell, Goodbye!\n");
-	exit(0);
+	printf("Exiting the shell with status %d. Goodbye!\n", status);
+	exit(status);;
 }
 
 /**
  * cmdexec - Executes a command specified by the argv array
  * using the execve system call.
  * @argv: Array of strings representing the command and it's arguments
- * Return: NULL
+ * Return: Does not return on success. Exits the process if an error occurs.
  */
 void cmdexec(char **argv)
 {
@@ -32,7 +34,12 @@ void cmdexec(char **argv)
 
 		if (strcmp(command, "exit") == 0)
 		{
-			handle_exit();
+			int status = 0;
+			if (argv[1] != NULL)
+			{
+				status = atoi(argv[1]);
+			}
+			handle_exit(status);
 		}
 		else if (strcmp(command, "env") == 0)
 		{
