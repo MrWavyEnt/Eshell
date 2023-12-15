@@ -14,7 +14,7 @@
 int main(int ac, char **argv);
 void cmdexec(char **argv);
 void print_environment(void);
-char *find_location(const char *command);
+char *find_location(char *command);
 int stat(const char *pathname, struct stat *statbuf);
 void prompt(void);
 void exec_usercmd(char **args);
