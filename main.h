@@ -18,5 +18,8 @@ char *find_location(char *command);
 int stat(const char *pathname, struct stat *statbuf);
 void prompt(void);
 void exec_usercmd(char **args);
+char *_getline();
+char *enter(char *string);
+void hashtag_handler(char *buff);
 
 #endif /*MAIN_H*/
