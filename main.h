@@ -1,8 +1,8 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+/* Standard Libraries*/
 #define PERROR(msg) perror(msg)
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -11,13 +11,10 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
-/**
- * main - main function
- * @ac: parameter 1
- * @argv: parameter 2
- * Return: void
- */
+/* External Environment*/
+extern char **environ;
 
+/* Function Prototypes*/
 int main(int ac, char **argv);
 void cmdexec(char **argv);
 void print_environment(void);
