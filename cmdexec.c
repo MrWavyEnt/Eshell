@@ -44,9 +44,16 @@ void cmdexec(char **argv)
                 {
                         actual_command = find_location(command);
 
-                        if (execve(actual_command, argv, NULL) == -1)
+                        if (actual_command == NULL)
+			{
+				printf("Command not found\n");
+					return;
+			}
+
+			if (execve(actual_command, argv, NULL) == -1)
                 {
                         PERROR("Error:");
+			return;
                 }
                 }
         }
