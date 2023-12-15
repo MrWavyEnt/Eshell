@@ -51,7 +51,8 @@ void cmdexec(char **argv)
 
 			if (execve(actual_command, argv, get_environ()) == -1)
 		{
-			perror("Error:");
+			perror("Error in execve");
+			return;
 		}
 		}
 	}
