@@ -1,57 +1,50 @@
 #include "main.h"
+
 /**
  * main - The main function that includes all functions needed for the shell
- * @argv: argument vector
- * @ac: argument count
- * Return: 1
+ * @argc: Argument count
+ * @argv: Argument vector
+ * Return: Returns condition
  */
-int main(int ac, char **argv)
+int main(__attribute__((unused)) int argc, char **argv)
 {
-	char *prompt = "(simple_shell)$ ";
-	char *lineptr = NULL, *lineptr_copy = NULL;
-	size_t n = 0;
-	ssize_t nchars_read;
-	const char *delim = " \n";
-	int num_tokens = 0;
-	char *token;
-	int i;
-	(void)ac;
+	char *in_u, **bltcmd, **comd;
+	int ct = 0, abc, condition = 1, stat = 0;
 
-	while (1)
+	if (argv[1] != NULL)
+		read_file(argv[1], argv);
+	signal(SIGINT, signal_to_handle);
+	while (condition)
 	{
-		printf("%s", prompt);
-		nchars_read = getline(&lineptr, &n, stdin);
-		if (nchars_read == -1)
+		ct++;
+		if (isatty(STDIN_FILENO))
+			prompt();
+		in_u = shell_getline();
+		if (in_u[0] == '\0')
+			continue;
+		history(in_u);
+		comd = sept(in_u);
+		for (abc = 0; comd[abc] != NULL; abc++)
 		{
-			printf("Exiting shell....\n");
-			return (-1);
+			bltcmd = shell_parsecmd(comd[abc]);
+			if (_strcmp(bltcmd[0], "exit") == 0)
+			{
+				free(comd);
+				exit_bul(bltcmd, in_u, argv, ct, stat);
+			}
+			else if((stat = check_cmd(bltcmd, in_u, ct, argv)))
+			{
+				free(bltcmd);
+			}
+			else 
+			{
+				continue;
+			}
 		}
-		lineptr_copy = malloc(sizeof(char) * nchars_read);
-		if (lineptr_copy == NULL)
-		{
-			perror("tsh: memory allocation error");
-			return (-1);
-		}
-		strcpy(lineptr_copy, lineptr);
-		token = strtok(lineptr, delim);
-		while (token != NULL)
-		{
-			num_tokens++;
-			token = strtok(NULL, delim);
-		}
-		num_tokens++;
-		argv = malloc(sizeof(char *) * num_tokens);
-		token = strtok(lineptr_copy, delim);
-		for (i = 0; token != NULL; i++)
-		{
-			argv[i] = malloc(sizeof(char) * strlen(token));
-			strcpy(argv[i], token);
-			token = strtok(NULL, delim);
-		}
-		argv[i] = NULL;
-		cmdexec(argv);
+		free(in_u);
+		free(comd);
+		wait(&stat);
 	}
-	free(lineptr_copy);
-	free(lineptr);
-	return (0);
+	return (stat);
 }
+
