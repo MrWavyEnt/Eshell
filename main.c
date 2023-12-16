@@ -33,8 +33,6 @@ int main(int ac, char **argv)
            break;
        }
 
-       printf("%s", lineptr);
-
        lineptr_copy = malloc(sizeof(char) * strlen(lineptr));
        if (lineptr_copy == NULL)
        {
