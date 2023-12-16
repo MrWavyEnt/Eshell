@@ -14,8 +14,8 @@ void print_environment(void);
  */
 void handle_exit(int status)
 {
-	printf("Exiting the shell with status %d. Goodbye!\n", status);
-	exit(status);
+       printf("Exiting the shell with status %d. Goodbye!\n", status);
+       exit(status);
 }
 
 /**
@@ -26,39 +26,55 @@ void handle_exit(int status)
  */
 void cmdexec(char **argv)
 {
-        char *command = NULL, *actual_command = NULL;
+       char *command = NULL, *actual_command = NULL;
+       int i;
 
-        if (argv)
-        {
-                command = argv[0];
+       if (argv)
+       {
+               command = argv[0];
 
-                if (strcmp(command, "exit") == 0)
-                {
-                        handle_exit(0);
-                }
-                else if (strcmp(command, "env") == 0)
-                {
-                        print_environment();
-                }
-                else
-                {
-                        actual_command = find_location(command);
+               printf("Command: %s\n", command);
+               for (i = 1; argv[i] != NULL; i++)
+               {
+                      printf("Argument %d: %s\n", i, argv[i]);
+               }
 
-                        if (actual_command == NULL)
-			{
-				printf("Command not found\n");
-					return;
-			}
+               if (strcmp(command, "exit") == 0)
+               {
+                      handle_exit(0);
+               }
+               else if (strcmp(command, "env") == 0)
+               {
+                      print_environment();
+               }
+               else if (strcmp(command, "/bin/ls") == 0)
+               {
+                      char *argv[] = {"/bin/ls", "-l", "/usr/", NULL};
+                      printf("Before execve\n");
+                      if (execve(argv[0], argv, NULL) == -1)
+                      {
+                              perror("Error:");
+                      }
+                      printf("After execve\n");
+               }
+               else
+               {
+                      actual_command = find_location(command);
 
-			if (execve(actual_command, argv, NULL) == -1)
-                {
-                        PERROR("Error:");
-			return;
-                }
-                }
-        }
+                      if (actual_command == NULL)
+                      {
+                              printf("Command not found\n");
+                              return;
+                      }
+
+                      if (execve(actual_command, argv, NULL) == -1)
+                      {
+                              PERROR("Error:");
+                              return;
+                      }
+               }
+       }
 }
-
 
 /**
  * print_environment - Prints the current environment variables
@@ -66,14 +82,14 @@ void cmdexec(char **argv)
  */
 void print_environment(void)
 {
-	int i = 0;
-	char *const *environ = get_environ();
+       int i = 0;
+       char *const *environ = get_environ();
 
-	while (environ[i] != NULL)
-	{
-		printf("%s\n", environ[i]);
-		i++;
-	}
+       while (environ[i] != NULL)
+       {
+               printf("%s\n", environ[i]);
+               i++;
+       }
 }
 
 /**
@@ -82,6 +98,7 @@ void print_environment(void)
  */
 char **get_environ(void)
 {
-	extern char **environ;
-	return environ;
+       extern char **environ;
+       return environ;
 }
+

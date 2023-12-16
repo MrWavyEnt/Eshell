@@ -24,5 +24,7 @@ char *_getline();
 char *enter(char *string);
 void hashtag_handler(char *buff);
 char **get_environ(void);
+void print_pid(void);
+int print_fork(void);
 
 #endif /*MAIN_H*/
