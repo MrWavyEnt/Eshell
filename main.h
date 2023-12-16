@@ -10,6 +10,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <limits.h>
 
 /* External Environment*/
 extern char **environ;
@@ -24,5 +25,7 @@ char *_getline();
 char *enter(char *string);
 void hashtag_handler(char *buff);
 char **get_environ(void);
+void handle_unsetenv(char **argv);
+void handle_setenv(char **argv);
 
 #endif /*MAIN_H*/
