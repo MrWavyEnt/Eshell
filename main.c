@@ -15,6 +15,8 @@ int main(int ac, char **argv)
    int num_tokens = 0;
    char *token;
    int i;
+   pid_t pid;
+   int status;
    (void)ac;
 
    while (1)
@@ -55,8 +57,24 @@ int main(int ac, char **argv)
            strcpy(argv[i], token);
            token = strtok(NULL, delim);
        }
+
+       pid = fork();
+      if (pid == -1) {
+          perror("tsh: fork error");
+	  return (-1);
+      }
+
+      if (pid == 0) {
+          if (execvp(argv[0], argv) == -1) {
+              perror("tsh");
+              return (-1);
+          }
+      }
+      else {
+          waitpid(pid, &status, 0);
+      }
+
    }
    free(lineptr_copy);
    return (0);
-
 }
